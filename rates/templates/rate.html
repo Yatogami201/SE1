@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Rates</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <h1>Lista de Rates</h1>
+    <ul>
+        {% for rate in rates %}
+            <li>{{ rate.rate_type }} - {{ rate.rate_amount }}
+                <button class="edit-rate-btn" data-rate-id="{{ rate.id }}">Editar</button>
+                <button class="delete-rate-btn" data-rate-id="{{ rate.id }}">Eliminar</button>
+            </li>
+        {% endfor %}
+    </ul>
+    
+    <form id="add-rate-form">
+        {% csrf_token %}
+        <label for="rate_type">Tipo de Rate:</label>
+        <input type="text" id="rate_type" name="rate_type">
+        <label for="rate_amount">Cantidad de Rate:</label>
+        <input type="text" id="rate_amount" name="rate_amount">
+        <button type="submit">Agregar Rate</button>
+    </form>
+
+    <!-- Script para manejar las acciones de editar y eliminar con AJAX -->
+    <script>
+        $(document).ready(function() {
+            // Editar rate
+            $('.edit-rate-btn').click(function() {
+                var rateId = $(this).data('rate-id');
+                // Aquí puedes enviar una solicitud AJAX para cargar un formulario de edición
+                // y luego actualizar el elemento en la lista después de la edición.
+            });
+
+            // Eliminar rate
+            $('.delete-rate-btn').click(function() {
+                var rateId = $(this).data('rate-id');
+                // Aquí puedes enviar una solicitud AJAX para eliminar el rate
+                // y luego eliminar el elemento de la lista después de la eliminación.
+            });
+
+            // Agregar rate
+            $('#add-rate-form').submit(function(event) {
+                event.preventDefault();
+                // Aquí puedes enviar una solicitud AJAX para agregar un nuevo rate
+                // y luego actualizar la lista después de la adición.
+            });
+        });
+    </script>
+</body>
+</html>
+
+
+

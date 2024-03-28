@@ -12,6 +12,15 @@
 
 <body>
 {% include 'navbar.html' %}
+{% if messages %}
+<div class="container">
+{% for message in messages %}
+<div class="alert alert-{{ message.tags }}">
+{{ message | safe }}
+</div>
+{% endfor %}
+</div>
+{% endif %}
 {% block content %}{% endblock content %}
 {% include 'footer.html' %}
 </body>

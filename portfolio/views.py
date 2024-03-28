@@ -1,3 +1,5 @@
+from django.conf import settings
+from django.contrib import messages
 from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
 from django.shortcuts import render, HttpResponse
 from .forms import SearchForm
@@ -15,15 +17,19 @@ def portfolio_search(request):
     form = SearchForm(request.GET)
     if form.is_valid():
       query = form.cleaned_data["query"]
-      search_vector = \
-          SearchVector("field_of_work", config="spanish", weight='D') \
-        + SearchVector("work_experience", config="spanish", weight='A') \
-        + SearchVector("projects", config="spanish", weight='B')
-      search_query = SearchQuery(query, config="spanish")
-      results = Portfolio.objects.annotate(
-        search=search_vector,
-        rank=SearchRank(search_vector, search_query)
-      ).filter(rank__gte=0.3).order_by('-rank')
+      if settings.DATABASES['default']['ENGINE'] == "django.db.backends.sqlite3":
+          messages.warning(request, "Search is not available with SQLite databases. \
+                  <br /> Please use a PostgreSQL database.")
+      else:
+          search_vector = \
+              SearchVector("field_of_work", config="spanish", weight='D') \
+            + SearchVector("work_experience", config="spanish", weight='A') \
+            + SearchVector("projects", config="spanish", weight='B')
+          search_query = SearchQuery(query, config="spanish")
+          results = Portfolio.objects.annotate(
+            search=search_vector,
+            rank=SearchRank(search_vector, search_query)
+          ).filter(rank__gte=0.1).order_by('-rank')
 
   return render(request,
                 "portfolio/search.html",

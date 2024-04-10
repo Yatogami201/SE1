@@ -1,0 +1,17 @@
+<!-- En tu archivo create_unique_url.html -->
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Generar URL Única</title>
+</head>
+<body>
+    <h1>Generar una URL Única</h1>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Crear URL</button>
+    </form>
+</body>
+</html>
+

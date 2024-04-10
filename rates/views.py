@@ -20,7 +20,7 @@ def add_rate(request):
             return redirect('list_rates')
     else:
         form = RateForm()
-    return render(request, 'add_rate.html', {'form': form})
+    return render(request, 'rate.html', {'form': form})
 
 def update_rate(request, rate_id):
     rate = get_object_or_404(Rate, id=rate_id, user=request.user)
@@ -31,19 +31,20 @@ def update_rate(request, rate_id):
             return redirect('list_rates')
     else:
         form = RateForm(instance=rate)
-    return render(request, 'update_rate.html', {'form': form})  
+    return render(request, 'rate.html', {'form': form})  
 
 def delete_rate(request, rate_id):
     rate = get_object_or_404(Rate, id=rate_id, user=request.user)
     if request.method == 'POST':
         rate.delete()
         return redirect('list_rates')
-    return render(request, 'delete_rate.html', {'rate': rate})
+    return render(request, 'rate.html', {'rate': rate})
 
 def rates_list(request):
     rates = Rate.objects.all()
     context = {'rates': rates}
     return render(request, 'rate.html', context)
+
 
 
 

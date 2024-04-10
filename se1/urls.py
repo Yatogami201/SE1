@@ -19,6 +19,7 @@ from django.urls import path, include
 from django.views.generic import RedirectView
 
 urlpatterns = [
-    path('admin/', admin.site.urls),  # URL del panel de administración
     path('rates/', include('rates.urls')),
+    path('admin/', admin.site.urls),
+    path('', include('url_generator.urls')),
 ]

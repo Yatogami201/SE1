@@ -1,58 +1,147 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Rates</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-</head>
-<body>
-    <h1>Lista de Rates</h1>
-    <ul>
-        {% for rate in rates %}
-            <li>{{ rate.rate_type }} - {{ rate.rate_amount }}
-                <button class="edit-rate-btn" data-rate-id="{{ rate.id }}">Editar</button>
-                <button class="delete-rate-btn" data-rate-id="{{ rate.id }}">Eliminar</button>
-            </li>
-        {% endfor %}
-    </ul>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Bienvenido</title>
+        <style>
+            
+            body {
+                font-family: 'Monaco', monospace; /* Cambia 'Arial' por el nombre de la fuente que deseas utilizar */
+            }
     
-    <form id="add-rate-form">
-        {% csrf_token %}
-        <label for="rate_type">Tipo de Rate:</label>
-        <input type="text" id="rate_type" name="rate_type">
-        <label for="rate_amount">Cantidad de Rate:</label>
-        <input type="text" id="rate_amount" name="rate_amount">
-        <button type="submit">Agregar Rate</button>
+           
+            button, input, label {
+                font-family: 'Monaco', monospace; /* Cambia 'Arial' por el nombre de la fuente que deseas utilizar */
+            } 
+            .button-container {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+    
+            .button-container div {
+                display: flex;
+            }
+    
+            .button-container button {
+                margin-right: 10px;
+            }
+            #hour-fields {
+                margin-top: 10px; /* Espacio vertical entre el campo de hora y los botones */
+            }
+        </style>
+    </head>
+<body>
+    <h1>Bienvenido</h1>
+    <h2>Elige la opción deseada</h2>
+    <div class="button-container">
+        <div>
+            <button id="add-btn" onclick="showAddFields()">Agregar</button>
+            <button id="edit-btn">Editar</button>
+        </div>
+        <button id="back-btn" style="display: none;" onclick="showInitialMenu()">Retroceder</button>
+    </div>
+</body>
+    <!-- Campos para agregar tarifas -->
+    <div id="add-fields" style="display: none;">
+        <button id="hour-btn" onclick="showHourFields()">Hora</button>
+        <button id="project-btn" onclick="showProjectFields()">Proyecto</button>
+    </div>
+
+    <!-- Campos para la opción "Hora" -->
+    <form id="hour-fields" style="display: none;">
+        <label for="hour_rate">Hora:</label>
+        <input type="number" id="hour_rate" name="hour_rate">
+        <select name="currency" id="currency">
+            <option value="COP">COP</option>
+            <option value="USD">USD</option>
+        </select>
+        <button id="save-hour-btn" onclick="saveHourChanges()">Guardar cambios</button>
     </form>
 
-    <!-- Script para manejar las acciones de editar y eliminar con AJAX -->
+    <!-- Campos para la opción "Proyecto" -->
+    <form id="project-fields" style="display: none; margin: 10px 0;">
+        <label for="project_rate1" style="margin-bottom: 5px;">Tarifa :</label>
+        <input type="text" id="project_rate1" name="project_rate1" style="margin-bottom: 5px;">
+        <!-- Otros campos ocultos para "Proyecto" -->
+        <div id="additional-fields" style="display: none; margin-bottom: 5px;">
+        </div>
+        <button id="add-field-btn" onclick="addProjectField()" style="margin-bottom: 5px;">Añadir campo</button>
+        <button id="save-project-btn" onclick="saveProjectChanges()">Guardar cambios</button>
+    </form>
+    
+
     <script>
-        $(document).ready(function() {
-            // Editar rate
-            $('.edit-rate-btn').click(function() {
-                var rateId = $(this).data('rate-id');
-                // Aquí puedes enviar una solicitud AJAX para cargar un formulario de edición
-                // y luego actualizar el elemento en la lista después de la edición.
-            });
+        function showAddFields() {
+            document.getElementById('add-btn').style.display = 'none';
+            document.getElementById('edit-btn').style.display = 'none';
+            document.getElementById('back-btn').style.display = 'block';
+            document.getElementById('add-fields').style.display = 'block';
+        }
 
-            // Eliminar rate
-            $('.delete-rate-btn').click(function() {
-                var rateId = $(this).data('rate-id');
-                // Aquí puedes enviar una solicitud AJAX para eliminar el rate
-                // y luego eliminar el elemento de la lista después de la eliminación.
-            });
+        function showInitialMenu() {
+            document.getElementById('add-btn').style.display = 'block';
+            document.getElementById('edit-btn').style.display = 'block';
+            document.getElementById('back-btn').style.display = 'none';
+            document.getElementById('add-fields').style.display = 'none';
+            document.getElementById('hour-fields').style.display = 'none';
+            document.getElementById('project-fields').style.display = 'none';
+            document.getElementById('additional-fields').style.display = 'none';
+        }
 
-            // Agregar rate
-            $('#add-rate-form').submit(function(event) {
-                event.preventDefault();
-                // Aquí puedes enviar una solicitud AJAX para agregar un nuevo rate
-                // y luego actualizar la lista después de la adición.
-            });
-        });
+        function showHourFields() {
+            document.getElementById('hour-fields').style.display = 'block';
+            document.getElementById('project-fields').style.display = 'none';
+            document.getElementById('additional-fields').style.display = 'none';
+        }
+
+        function showProjectFields() {
+            document.getElementById('hour-fields').style.display = 'none';
+            document.getElementById('project-fields').style.display = 'block';
+            document.getElementById('additional-fields').style.display = 'none';
+        }
+
+        function saveHourChanges() {
+            var hourRate = document.getElementById('hour_rate').value;
+            var currency = document.getElementById('currency').value;
+            // Aquí puedes enviar una solicitud AJAX para guardar los cambios
+        }
+
+        function saveProjectChanges() {
+            var projectRates = [];
+            var projectFields = document.getElementsByName('project_rate1');
+            for (var i = 0; i < projectFields.length; i++) {
+                projectRates.push(projectFields[i].value);
+            }
+            // Aquí puedes enviar una solicitud AJAX para guardar los cambios
+        }
+
+        function addProjectField() {
+            event.preventDefault();
+            var additionalFields = document.getElementById('additional-fields');
+            additionalFields.style.display = 'block';
+            var numFields = additionalFields.getElementsByTagName('input').length;
+            if (numFields < 4) {
+                var newField = document.createElement('div');
+                newField.classList.add('field-container');
+                var inputField = document.createElement('input');
+                inputField.type = 'text';
+                inputField.name = 'project_rate' + (numFields + 2); 
+                // Aplicar márgenes a los elementos creados
+                inputField.style.marginBottom = '5px'; // Margen inferior de 5px
+                var label = document.createElement('label');
+                label.textContent = 'Tarifa ' + ': ';
+                label.classList.add('field-label');
+                label.style.marginBottom = '5px'; // Margen inferior de 5px
+                newField.appendChild(label);
+                newField.appendChild(inputField);
+                additionalFields.appendChild(newField);
+            }
+        }
+        
     </script>
 </body>
 </html>
-
 
 

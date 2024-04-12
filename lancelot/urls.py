@@ -33,5 +33,7 @@ urlpatterns = [
          sitemap,
          {"sitemaps": sitemaps},
          name="django.contrib.sitemaps.views.sitemap",
-    )
+    ),
+    path("rates/", include("rates.urls")),
+    path("url/",  include("url_generator.urls")),
 ]

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bienvenido</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <style>
+        /* Custom CSS */
+        #hour-fields, #project-fields {
+            margin-top: 20px; /* Espacio vertical entre el campo de hora y los botones */
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Bienvenido</h1>
+    <h2>Elige la opción deseada</h2>
+
+    <div class="row mb-3">
+        <div class="col">
+            <div class="d-flex flex-wrap align-items-center">
+                <button id="add-btn" onclick="showAddFields()" class="btn btn-primary me-2">Agregar</button>
+                <button id="edit-btn" class="btn btn-secondary me-2">Editar</button>
+                <button id="back-btn" style="display: none;" onclick="showInitialMenu()" class="btn btn-outline-primary ms-auto">Retroceder</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Campos para agregar tarifas -->
+    <div id="add-fields" style="display: none;">
+        <div class="row">
+            <div class="col">
+                <button id="hour-btn" onclick="showHourFields()" class="btn btn-primary">Hora</button>
+                <button id="project-btn" onclick="showProjectFields()" class="btn btn-primary">Proyecto</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Campos para la opción "Hora" -->
+    <form id="hour-fields" style="display: none;">
+        <div class="row mb-3">
+            <label for="hour_rate" class="col-sm-1 col-form-label">Hora:</label>
+            <div class="col-sm-6">
+                <input type="number" id="hour_rate" name="hour_rate" class="form-control">
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-sm-6 offset-sm-1">
+                <select name="currency" id="currency" class="form-select">
+                    <option value="COP">COP</option>
+                    <option value="USD">USD</option>
+                </select>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-sm-6 offset-sm-1">
+                <button id="save-hour-btn" onclick="saveHourChanges()" class="btn btn-primary">Guardar cambios</button>
+            </div>
+        </div>
+    </form>
+
+    <!-- Campos para la opción "Proyecto" -->
+    <form id="project-fields" style="display: none;">
+        <div class="row mb-3">
+            <label for="project_rate1" class="col-sm-1 col-form-label">Tarifa:</label>
+            <div class="col-sm-6">
+                <input type="text" id="project_rate1" name="project_rate1" class="form-control">
+            </div>
+        </div>
+        <!-- Otros campos ocultos para "Proyecto" -->
+        <div id="additional-fields" style="display: none;">
+           
+        </div>
+        <div class="row mb-3">
+            <div class="col-sm-10 offset-sm-1">
+                <button id="add-field-btn" onclick="addProjectField()" class="btn btn-primary">Añadir campo</button>
+                <button id="save-project-btn" onclick="saveProjectChanges()" class="btn btn-primary">Guardar cambios</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script>
+    function showAddFields() {
+        document.getElementById('add-btn').style.display = 'none';
+        document.getElementById('edit-btn').style.display = 'none';
+        document.getElementById('back-btn').style.display = 'block';
+        document.getElementById('add-fields').style.display = 'block';
+    }
+
+    function showInitialMenu() {
+        document.getElementById('add-btn').style.display = 'block';
+        document.getElementById('edit-btn').style.display = 'block';
+        document.getElementById('back-btn').style.display = 'none';
+        document.getElementById('add-fields').style.display = 'none';
+        document.getElementById('hour-fields').style.display = 'none';
+        document.getElementById('project-fields').style.display = 'none';
+        document.getElementById('additional-fields').style.display = 'none';
+    }
+
+    function showHourFields() {
+        document.getElementById('hour-fields').style.display = 'block';
+        document.getElementById('project-fields').style.display = 'none';
+        document.getElementById('additional-fields').style.display = 'none';
+    }
+
+    function showProjectFields() {
+        document.getElementById('hour-fields').style.display = 'none';
+        document.getElementById('project-fields').style.display = 'block';
+        document.getElementById('additional-fields').style.display = 'none';
+    }
+
+    function saveHourChanges() {
+        var hourRate = document.getElementById('hour_rate').value;
+        var currency = document.getElementById('currency').value;
+       
+    }
+
+    function saveProjectChanges() {
+        var projectRates = [];
+        var projectFields = document.getElementsByName('project_rate1');
+        for (var i = 0; i < projectFields.length; i++) {
+            projectRates.push(projectFields[i].value);
+        }
+       
+    }
+
+    function addProjectField() {
+        event.preventDefault();
+        var additionalFields = document.getElementById('additional-fields');
+        additionalFields.style.display = 'block';
+        var numFields = additionalFields.getElementsByTagName('input').length;
+        if (numFields < 4) {
+            var newField = document.createElement('div');
+            newField.classList.add('row', 'mb-3');
+            newField.innerHTML = `
+                <label class="col-sm-1 col-form-label">Tarifa:</label>
+                <div class="col-sm-6">
+                    <input type="text" name="project_rate${numFields + 2}" class="form-control">
+                </div>`;
+            additionalFields.appendChild(newField);
+        }
+    }
+</script>
+</body>
+</html>
+

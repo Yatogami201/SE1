@@ -16,6 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
 from django.contrib.sitemaps.views import sitemap
 
 from portfolio import views
@@ -36,4 +37,10 @@ urlpatterns = [
     ),
     path("rates/", include("rates.urls")),
     path("url/",  include("url_generator.urls")),
+    path("accounts/", include("django.contrib.auth.urls")),
 ]
+
+if settings.DEBUG:
+    from django.conf.urls.static import static
+    urlpatterns += static(settings.MEDIA_URL,
+                          document_root=settings.MEDIA_ROOT)

@@ -43,11 +43,11 @@ INSTALLED_APPS = [
     "django.contrib.postgres",
     "django.contrib.sites",
     "django.contrib.sitemaps",
-    "url_generator",
     "rates",
-    "accounts",
     "crispy_forms",
     "crispy_bootstrap5",
+    "django_bootstrap5",
+    "profile",
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"

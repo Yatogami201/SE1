@@ -25,7 +25,6 @@ from portfolio.sitemaps import StaticViewSitemap
 sitemaps = {
     'portfolios': StaticViewSitemap,
 }
-
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("",  views.index, name='home'),
@@ -36,11 +35,13 @@ urlpatterns = [
          name="django.contrib.sitemaps.views.sitemap",
     ),
     path("rates/", include("rates.urls")),
-    path("url/",  include("url_generator.urls")),
-    path("accounts/", include("django.contrib.auth.urls")),
+    path("profile/", include("profile.urls")),
+    
 ]
+
 
 if settings.DEBUG:
     from django.conf.urls.static import static
     urlpatterns += static(settings.MEDIA_URL,
-                          document_root=settings.MEDIA_ROOT)
+                          document_root=settings.MEDIA_ROOT)    
+

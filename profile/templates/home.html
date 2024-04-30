@@ -1,15 +1,16 @@
-{% extends 'base.html' %}
-
 {% block content %}
-
-{% if request.user.is_authenticated %}
+{% if user.is_authenticated %}
 <div class="row">
     <div class="col-md-4">
         <div class="card">
-            <img src={{ user.profile.image.url }} class="card-img-top" alt="...">
+            {% if user.profile.image %}
+            <img src="{{ user.profile.image.url }}" class="card-img-top" alt="...">
+            {% else %}
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQw3efFPTvK22Zg16uwDId8I10e1qOgtZRMHSmb_zAZkQ&s" class="card-img-top" alt="Placeholder">
+            {% endif %}
             <div class="card-body">
-                <h3 class="card-title text-primary">{{ user.first_name }} {{ user.last_name }}</h3>
-                <h5 class="card-title">{{ user.username | upper }}</h5>
+                <h3 class="card-title text-primary">{{ user.get_full_name }}</h3>
+                <h5 class="card-title">{{ user.username }}</h5>
                 <small><i class="bi bi-geo-alt"></i> {{ user.profile.location }}</small>
                 <p class="card-text mt-3">{{ user.profile.bio }}</p>
 
@@ -31,5 +32,7 @@
 <h4>Título cualquiera</h4>
 <p>{% lorem %}</p>
 {% endif %}
+{% endblock %}
 
-{%endblock%}
+
+

@@ -5,6 +5,7 @@ from django.shortcuts import render, HttpResponse
 from .forms import SearchForm
 from .models import Portfolio
 
+
 def index(request):
     return render(request, "index.html")
 
